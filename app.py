@@ -28,7 +28,13 @@ DB_CONFIG = {
 def get_db_connection():
     """Establishes and returns a connection to the MySQL database."""
     try:
-        return mysql.connector.connect(**DB_CONFIG)
+        # Use st.secrets to securely access credentials
+        return mysql.connector.connect(
+            host=st.secrets["DB_HOST"],
+            user=st.secrets["DB_USER"],
+            password=st.secrets["DB_PASSWORD"],
+            database=st.secrets["DB_DATABASE"]
+        )
     except mysql.connector.Error as err:
         st.error(f"Error connecting to MySQL database: {err}")
         return None
